@@ -49,14 +49,20 @@ def _get_detector() -> RFDETRAdapter:
 
 
 def _trim_and_resize(video_path: str, out_path: str) -> None:
+    # Reject anything that isn't a plain local file before it reaches ffmpeg: ffmpeg's
+    # own protocol handling (http/data/concat/subprocess/...) can otherwise be abused
+    # for SSRF or local-file-read tricks via a crafted -i argument.
+    validated_path = Path(video_path).resolve(strict=True)
     subprocess.run(
         [
             "ffmpeg",
             "-y",
             "-v",
             "error",
+            "-protocol_whitelist",
+            "file,pipe,fd",
             "-i",
-            video_path,
+            str(validated_path),
             "-t",
             str(MAX_SECONDS),
             "-vf",

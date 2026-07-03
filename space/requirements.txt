@@ -1,2 +1,2 @@
-gradio~=5.9
+gradio~=5.50
 matchtracker @ git+https://github.com/happynood/cv-match-tracker.git@4111a7fd52ace0ef15eca37319804b03270bda9e
