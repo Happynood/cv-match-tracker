@@ -1,0 +1,30 @@
+# secrets / heavy
+.env
+.env.*
+models/
+data/*
+!data/smoke/
+!data/smoke/**
+!data/sample_clip.mp4
+
+# Claude footprint — never publish
+CLAUDE.md
+.claude/
+SPEC.md
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# outputs
+results/
+outputs/
+*.log
+.DS_Store

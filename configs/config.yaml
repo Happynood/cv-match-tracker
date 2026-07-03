@@ -1,0 +1,46 @@
+defaults:
+  - sport: football
+  - detector: rfdetr_nano
+  - tracker: bytetrack
+  - _self_
+
+video:
+  path: ???
+  target_fps: 10
+  resize: null
+  clip: null
+
+team:
+  classifier: sports_teamclassifier
+  sample_fps: 1
+  n_clusters: 2
+
+calibration:
+  static: true
+  method: keypoints_ransac
+  refit_on_bump: false
+  min_keypoints: 6
+  reproj_error_max_m: 2.0
+
+metrics:
+  v_max_ms: 12.0
+  sprint_thresh_ms: 7.0
+  smooth: savgol
+  savgol_window: 7
+  savgol_polyorder: 2
+
+pitch:
+  length_m: 105
+  width_m: 68
+
+ball:
+  enabled: false
+  sahi: true
+  possession_radius_m: 2.0
+  hold_frames: 5
+
+output:
+  dir: results/
+  save_annotated_video: true
+
+seed: 0

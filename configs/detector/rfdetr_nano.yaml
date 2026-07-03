@@ -1,0 +1,9 @@
+# @package detector
+name: rfdetr_nano
+backend: rfdetr
+resolution: 384
+fp16: true
+conf: 0.40
+conf_ball: 0.15
+iou: 0.60
+hf_revision: main

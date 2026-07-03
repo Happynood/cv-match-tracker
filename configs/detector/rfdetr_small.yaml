@@ -1,0 +1,9 @@
+# @package detector
+name: rfdetr_small
+backend: rfdetr
+resolution: 512
+fp16: true
+conf: 0.40
+conf_ball: 0.15
+iou: 0.60
+hf_revision: main

@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "matchtracker: Offline player tracking and post-match statistics for football"
+authors:
+  - family-names: "Alexey"
+version: 0.1.0
+date-released: "2026-07-03"
+license: MIT
+repository-code: "https://github.com/Happynood/cv-match-tracker"

@@ -1,0 +1,8 @@
+# @package _global_
+sport: football
+
+classes:
+  player: player
+  goalkeeper: goalkeeper
+  referee: referee
+  ball: ball
