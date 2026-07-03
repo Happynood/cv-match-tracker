@@ -5,6 +5,10 @@ tactical camera. Detect → track → assign team → project onto a 2D pitch �
 geometry-based statistics (distance, sprints, speed, heatmaps, formation) — batch/offline,
 tuned to run on a 4GB-VRAM laptop GPU.
 
+**Try it:** [huggingface.co/spaces/happynood/cv-match-tracker-demo](https://huggingface.co/spaces/happynood/cv-match-tracker-demo)
+— upload a short clip, get tracking + team split (CPU demo; see the Space's README for
+what's simplified vs. the full CLI below).
+
 This project is assembly, not invention: detection (RF-DETR), tracking
 (`supervision`'s ByteTrack), team clustering and pitch homography
 (`roboflow/sports`) are reused as-is. The code here is the Hydra config, thin
