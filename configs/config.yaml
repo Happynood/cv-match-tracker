@@ -1,6 +1,6 @@
 defaults:
   - sport: football
-  - detector: rfdetr_nano
+  - detector: rfdetr_small
   - tracker: bytetrack
   - _self_
 
@@ -17,10 +17,11 @@ team:
 
 calibration:
   static: true
-  method: keypoints_ransac
+  method: manual
   refit_on_bump: false
   min_keypoints: 6
   reproj_error_max_m: 2.0
+  correspondences_path: null
 
 metrics:
   v_max_ms: 12.0

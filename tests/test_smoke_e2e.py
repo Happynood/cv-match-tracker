@@ -26,6 +26,8 @@ def test_pipeline_runs_end_to_end_on_smoke_clip(tmp_path):
         cfg = compose(config_name="config")
 
     OmegaConf.set_struct(cfg, False)
+    cfg.detector.name = "rfdetr_nano"
+    cfg.detector.resolution = 384
     cfg.video.path = str(SMOKE_CLIP)
     cfg.video.target_fps = 5
     cfg.team.sample_fps = 1

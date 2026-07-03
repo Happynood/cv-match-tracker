@@ -30,7 +30,8 @@ fabricated or estimated — it is simply absent.
 
 ```bash
 uv sync --all-extras
-uv run matchtracker run --config configs/config.yaml --video data/sample_clip.mp4 --output results/
+uv run matchtracker run --config configs/config.yaml --video data/sample_clip.mp4 --output results/ \
+    --override calibration.correspondences_path=data/sample_clip_keypoints.json calibration.min_keypoints=4
 ```
 
 Outputs land in `results/`:
@@ -42,22 +43,34 @@ Outputs land in `results/`:
 - `run_manifest.json` — git SHA, config hash, model revisions, GPU fingerprint
 
 `data/sample_clip.mp4` is a short real broadcast clip of a fixed tactical camera, included
-as a working example. `data/smoke/` holds a tiny (2s, 640x360) crop used by the test suite
-and CI — see [`data/smoke/README.md`](data/smoke/README.md).
+as a working example, alongside `data/sample_clip_keypoints.json` — 4 hand-picked
+penalty-box/six-yard-box correspondences for *that specific clip's camera* (not a
+validated calibration; good enough to demo the pipeline end-to-end). `data/smoke/` holds
+a tiny (2s, 640x360) crop used by the test suite and CI — see
+[`data/smoke/README.md`](data/smoke/README.md).
 
 ### Static calibration
 
 The camera is fixed, so the homography `H` is computed **once**, not per frame. By default
 this repo uses **manual correspondences** (a JSON file of pixel → pitch-meter points) —
-see `configs/config.yaml`'s `calibration` block and `data/smoke/manual_keypoints.json` for
+see `configs/config.yaml`'s `calibration` block and `data/sample_clip_keypoints.json` for
 the file format. An automatic pitch-keypoint detector is pluggable
 (`calibrate.PitchKeypointDetector`) but none ships with this repo; see
 [docs/DESIGN.md](docs/DESIGN.md) for why.
 
+Every camera setup needs its own correspondences file (pixel positions are only meaningful
+for the exact camera that produced them) — pick your own points by eye against the pitch
+markings in your video's first frame, in the same `{"pixel": [u, v], "pitch_m": [x, y]}`
+format, then either fit standalone:
+
 ```bash
 uv run matchtracker calibrate --config configs/config.yaml \
-    --correspondences data/smoke/manual_keypoints.json --output results/homography.json
+    --correspondences data/sample_clip_keypoints.json --output results/homography.json
 ```
+
+or feed it straight into `run` via `--override` as shown above. `calibration.min_keypoints`
+defaults to 6 (recommended for a properly surveyed calibration); drop it to your point count
+via override if you're working with a quick 4-point fallback.
 
 ### Detector: bring your own football checkpoint
 

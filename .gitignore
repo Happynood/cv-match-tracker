@@ -6,6 +6,7 @@ data/*
 !data/smoke/
 !data/smoke/**
 !data/sample_clip.mp4
+!data/sample_clip_keypoints.json
 
 # Claude footprint — never publish
 CLAUDE.md

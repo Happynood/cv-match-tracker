@@ -55,9 +55,13 @@ uv run matchtracker run \
     --override calibration.correspondences_path=path/to/your_match_keypoints.json
 ```
 
-Recommended overrides for full 90-minute runs on 4GB VRAM:
+The default config already uses **RF-DETR Small** (512px): measured peak VRAM for the full
+pipeline (detector + team classifier) on the target RTX 3050 4GB card is ~340MB — Nano
+measures ~310MB — so Small's better accuracy costs almost nothing on this hardware. Drop to
+`detector=rfdetr_nano` only if you separately load other GPU workloads alongside a run.
 
-- `detector.name=rfdetr_nano` (Small only if you have headroom to spare)
+Other recommended overrides for full 90-minute runs:
+
 - `video.target_fps=10` (or lower; positional metrics tolerate downsampling per spec)
 - `output.save_annotated_video=false` if you don't need the debug video (saves time + disk)
 
