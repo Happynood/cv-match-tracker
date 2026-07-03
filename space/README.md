@@ -15,18 +15,45 @@ python_version: "3.11"
 
 Upload a short clip (a few seconds) of a **fixed, wide tactical football camera** and
 this Space will detect players/referees, track them across frames, split them into two
-teams, and return an annotated video + a pixel-space position heatmap per team.
+teams, and return an annotated video + a position heatmap per team.
 
-**This is a CPU demo, not the full pipeline.** Two things are simplified relative to the
-full `matchtracker` CLI (see the [GitHub repo](https://github.com/happynood/cv-match-tracker)):
+**No football-fine-tuned detector ships with this repo.** Both detector options below use
+RF-DETR's COCO-pretrained weights with a `person -> player` / `sports ball -> ball` label
+remap — good enough to demo tracking and team-splitting, not tuned for football-specific
+accuracy. See the [GitHub repo](https://github.com/happynood/cv-match-tracker) for the full
+CLI, which supports bringing your own fine-tuned checkpoint.
 
-1. **No pitch calibration.** The full pipeline projects pixel positions onto real pitch
-   meters via a one-time homography fit, which needs hand-picked correspondences for
-   *your specific camera*. An anonymous upload has none, so this demo reports positions
-   in **pixel space** — no distance/speed/sprint statistics, since those require real
-   units. Run the CLI locally with `matchtracker calibrate` for those.
-2. **No football-fine-tuned detector.** This Space uses RF-DETR Nano's COCO-pretrained
-   weights with a `person -> player` / `sports ball -> ball` label remap — good enough
-   to demo tracking and team-splitting, not tuned for football-specific accuracy.
+## Options
 
-Keep uploads short (a few seconds) — this runs on shared CPU.
+- **Detector model** — RF-DETR Nano (fast, default) or Small (more accurate, slower on CPU).
+- **Compute device** — defaults to CPU everywhere. A **GPU (CUDA)** option appears
+  automatically when this app is running somewhere with CUDA available — it won't show up
+  on this hosted Space (CPU-only hardware), but will if you run it locally with an NVIDIA
+  GPU (see below).
+- **Calibration keypoints (optional)** — without them, positions are reported in **pixel
+  space** (no real distance/speed, since those need real units). Provide >= 4
+  `{"pixel": [u, v], "pitch_m": [x, y]}` correspondences and this demo fits a one-time
+  homography and reports real distance/top-speed/avg-speed/sprint-count in pitch meters,
+  same as the full CLI's `matchtracker calibrate`. After uploading a clip, expand
+  "Calibration keypoints" to preview its first frame, click on visible pitch markings
+  (penalty box / six-yard box corners work well) to read off pixel coordinates, and pair
+  each with its real position in meters (pitch is 105m x 68m) in the JSON box.
+
+Keep uploads short (a few seconds) — the hosted Space runs on shared CPU.
+
+## Run locally on a GPU
+
+This Space's code is a normal Gradio app — clone it and run it anywhere with Python:
+
+```bash
+git clone https://huggingface.co/spaces/happynood/cv-match-tracker-demo
+cd cv-match-tracker-demo
+pip install -r requirements.txt
+python app.py
+```
+
+If a CUDA-capable NVIDIA GPU and driver are present, standard PyTorch wheels already include
+CUDA support, so no extra step is needed — `torch.cuda.is_available()` is checked at
+startup, and the **Compute device** dropdown will offer **GPU (CUDA)** alongside CPU.
+Selecting it runs both the detector and the team classifier on the GPU, which is
+meaningfully faster than CPU, especially with the Small detector.

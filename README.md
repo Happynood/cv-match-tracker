@@ -6,8 +6,9 @@ geometry-based statistics (distance, sprints, speed, heatmaps, formation) — ba
 tuned to run on a 4GB-VRAM laptop GPU.
 
 **Try it:** [huggingface.co/spaces/happynood/cv-match-tracker-demo](https://huggingface.co/spaces/happynood/cv-match-tracker-demo)
-— upload a short clip, get tracking + team split (CPU demo; see the Space's README for
-what's simplified vs. the full CLI below).
+— upload a short clip, pick a detector model, and optionally add calibration keypoints for
+real distance/speed stats (pixel-space otherwise). Defaults to CPU; clone the Space and run
+it locally to use a GPU. See the Space's README for what's simplified vs. the full CLI below.
 
 This project is assembly, not invention: detection (RF-DETR), tracking
 (`supervision`'s ByteTrack), team clustering and pitch homography

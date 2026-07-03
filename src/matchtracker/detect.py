@@ -41,6 +41,7 @@ class DetectorConfig:
     hf_repo_id: str | None = None
     hf_revision: str | None = None
     hf_filename: str | None = None
+    device: str | None = None
 
     @classmethod
     def from_mapping(cls, mapping: Any) -> DetectorConfig:
@@ -75,12 +76,16 @@ class RFDETRAdapter:
         from rfdetr import RFDETRNano, RFDETRSmall
         from rfdetr.detr import RFDETR
 
+        kwargs: dict[str, Any] = {"resolution": self.config.resolution}
+        if self.config.device:
+            kwargs["device"] = self.config.device
+
         checkpoint = _resolve_checkpoint(self.config)
         if checkpoint is not None:
-            return RFDETR.from_checkpoint(checkpoint, resolution=self.config.resolution)
+            return RFDETR.from_checkpoint(checkpoint, **kwargs)
 
         model_cls = RFDETRSmall if "small" in self.config.name else RFDETRNano
-        return model_cls(resolution=self.config.resolution)
+        return model_cls(**kwargs)
 
     def _class_name(self, raw_name: str) -> str:
         if self._is_finetuned:
