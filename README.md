@@ -1,5 +1,10 @@
 # matchtracker
 
+[![CI](https://github.com/Happynood/cv-match-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/Happynood/cv-match-tracker/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Match Tracker Demo](https://img.shields.io/badge/🤗%20Space-MatchTracker-yellow)](https://huggingface.co/spaces/happynood/cv-match-tracker-demo)
+
 Offline player tracking and post-match statistics for football, from a single **fixed**
 tactical camera. Detect → track → assign team → project onto a 2D pitch → compute
 geometry-based statistics (distance, sprints, speed, heatmaps, formation) — batch/offline,
