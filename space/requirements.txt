@@ -1,2 +1,2 @@
 gradio~=5.50
-matchtracker @ git+https://github.com/happynood/cv-match-tracker.git@b44c5c4e3178c4ec5ccd983e59915b8017c17572
+matchtracker @ git+https://github.com/happynood/cv-match-tracker.git@b2914904703347cc7ccdc0d05ecc5cac3af93908
